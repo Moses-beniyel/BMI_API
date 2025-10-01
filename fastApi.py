@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import mysql.connector
@@ -15,10 +16,11 @@ app.add_middleware(
 
 def get_connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="bmi_app"
+        host="ballast.proxy.rlwy.net",
+        user="root",  # or the MYSQLUSER in Railway Variables
+        password="njOSVshPnRLpmzCOVkQgvNDQJWlglVek",
+        database="railway",  # or MYSQLDATABASE
+        port=46305
     )
 
 
@@ -28,7 +30,7 @@ def read_root():
 
 
 @app.get("/search")
-def search(height: float, weight: float):
+def search(height: float, weight: float,name: str):
     bmi = round(weight / (height * height), 2)
 
     if bmi < 18.5:
@@ -64,8 +66,12 @@ def search(height: float, weight: float):
     try:
         conn = get_connection()
         cursor = conn.cursor()
-        sql = "INSERT INTO bmi_records (height, weight, bmi, status) VALUES (%s, %s, %s, %s)"
-        values = (height, weight, bmi, status)
+       
+        bmi = weight / (height ** 2)
+        status = "Normal"
+
+        sql = "INSERT INTO bmi_records (name,height, weight, bmi, status) VALUES (%s,%s, %s, %s, %s)"
+        values = (name,height, weight, bmi, status)
         cursor.execute(sql, values)
         conn.commit()
         cursor.close()

@@ -1,5 +1,4 @@
 
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException
@@ -108,6 +107,5 @@ def get_records():
     except mysql.connector.Error as err:
         print(f"❌ Error fetching records: {err}")
         return {"error": str(err)}
-
 
 

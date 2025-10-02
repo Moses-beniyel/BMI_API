@@ -1,5 +1,5 @@
 
-from multiprocessing.reduction import duplicate
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException
@@ -10,10 +10,10 @@ app = FastAPI()
 # 🔹 Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # allows all origins (good for development)
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # allows all HTTP methods: GET, POST, etc.
-    allow_headers=["*"],  # allows all headers
+    allow_methods=["*"], 
+    allow_headers=["*"], 
 )
 
 def get_connection():
